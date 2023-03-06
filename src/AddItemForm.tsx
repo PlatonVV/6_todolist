@@ -1,8 +1,7 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
 
 export type AddItemFormPropsType = {
-  addTask: (title: string, todolistId: string) => void;
-  id: string;
+  addItem: (title: string) => void;
 };
 
 export function AddItemForm(props: AddItemFormPropsType) {
@@ -20,7 +19,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
   const addTask = () => {
     let newTitle = title.trim();
     if (newTitle !== "") {
-      props.addTask(newTitle, props.id);
+      props.addItem(newTitle);
       setTitle("");
     } else {
       setError("Title is required");
