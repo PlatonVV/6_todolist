@@ -43,7 +43,6 @@ function App() {
     // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
     setTasks({ ...tasks });
   }
-
   function addTask(title: string, todolistId: string) {
     let task = { id: v1(), title: title, isDone: false };
     //достанем нужный массив по todolistId:
@@ -53,7 +52,6 @@ function App() {
     // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
     setTasks({ ...tasks });
   }
-
   function changeStatus(id: string, isDone: boolean, todolistId: string) {
     //достанем нужный массив по todolistId:
     let todolistTasks = tasks[todolistId];
@@ -65,6 +63,17 @@ function App() {
       // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
       setTasks({ ...tasks });
     }
+  }
+
+  function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
+    setTasks({
+      ...tasks,
+      [todolistId]: [
+        ...tasks[todolistId].map((el) =>
+          el.id === id ? { ...el, title: newTitle } : el
+        ),
+      ],
+    });
   }
 
   function changeFilter(value: FilterValuesType, todolistId: string) {
@@ -93,6 +102,13 @@ function App() {
     setTodolists([todolist, ...todolists]);
     setTasks({ ...tasks, [todolist.id]: [] });
   }
+  function changeToDoListTitle(newTitle: string, todolistId: string) {
+    setTodolists([
+      ...todolists.map((el) =>
+        el.id === todolistId ? { ...el, title: newTitle } : el
+      ),
+    ]);
+  }
 
   return (
     <div className="App">
@@ -118,8 +134,10 @@ function App() {
             changeFilter={changeFilter}
             addTask={addTask}
             changeTaskStatus={changeStatus}
+            changeTaskTitle={changeTaskTitle}
             filter={tl.filter}
             removeTodolist={removeTodolist}
+            changeToDoListTitle={changeToDoListTitle}
           />
         );
       })}
